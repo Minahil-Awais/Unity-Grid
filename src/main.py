@@ -2,6 +2,7 @@ from models import UnityGridEngine
 import sys
 
 def main():
+    # This now loads existing data from your JSON file automatically
     engine = UnityGridEngine()
     
     while True:
@@ -12,7 +13,7 @@ def main():
         print("2. Log Incoming Aid (Supply Update)")
         print("3. Register Humanitarian Volunteer")
         print("4. Emergency Specialist Search")
-        print("5. Exit System")
+        print("5. Save and Exit System") # Updated label
         
         choice = input("\n[Admin Selection] > ")
 
@@ -37,6 +38,7 @@ def main():
             name = input("Volunteer Name: ")
             spec = input("Specialty (Medical/Logistics/Rescue): ")
             contact = input("Contact/Email: ")
+            # Using the engine to handle adding to maintain clean architecture
             engine.volunteers.append({"name": name, "spec": spec, "contact": contact})
             print(f"✅ {name} added to Global Response Team.")
 
@@ -44,11 +46,16 @@ def main():
             search_spec = input("Search for specialty: ").lower()
             results = [v for v in engine.volunteers if v['spec'].lower() == search_spec]
             print(f"\n--- Results for {search_spec.capitalize()} ---")
+            if not results:
+                print("No specialists found for that category.")
             for r in results:
                 print(f"👤 {r['name']} | 📞 {r['contact']}")
 
         elif choice == '5':
-            print("Terminating UnityGrid Secure Session...")
+            # IMPORTANT: This saves your work to data/relief_data.json
+            print("Saving data...")
+            engine.save_state() 
+            print("Terminating UnityGrid Secure Session. Goodbye!")
             break
 
 if __name__ == "__main__":
