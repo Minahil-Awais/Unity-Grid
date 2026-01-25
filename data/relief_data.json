@@ -1,0 +1,31 @@
+{
+    "centers": [
+        {
+            "city": "Istanbul",
+            "country": "Türkiye",
+            "inventory": {"Water (Liters)": 5000, "Medical Kits": 200, "Food Parcels": 1000}
+        },
+        {
+            "city": "Antakya",
+            "country": "Türkiye",
+            "inventory": {"Water (Liters)": 3000, "Medical Kits": 500, "Food Parcels": 800}
+        },
+        {
+            "city": "Tokyo",
+            "country": "Japan",
+            "inventory": {"Water (Liters)": 4500, "Medical Kits": 300, "Food Parcels": 1200}
+        },
+        {
+            "city": "Beirut",
+            "country": "Lebanon",
+            "inventory": {"Water (Liters)": 2000, "Medical Kits": 150, "Food Parcels": 600}
+        }
+    ],
+    "volunteers": [
+        {"name": "Dr. Ayşe Yılmaz", "spec": "Medical", "contact": "ayse@email.tr"},
+        {"name": "Kenji Sato", "spec": "Rescue", "contact": "sato@tokyo-aid.jp"},
+        {"name": "Carlos Garcia", "spec": "Logistics", "contact": "carlos@mexico.mx"},
+        {"name": "Mehmet Demir", "spec": "Engineer", "contact": "m.demir@teknik.edu.tr"},
+        {"name": "Sarah Smith", "spec": "Medical", "contact": "sarah@redcross.org"}
+    ]
+}
