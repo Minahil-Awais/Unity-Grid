@@ -1,40 +1,53 @@
 import json
 import os
+import random
 
-class AidCenter:
-    """Represents a global hub for resource distribution."""
-    def __init__(self, city, country, water=0, medical_kits=0, food_parcels=0):
+class ReliefCenter:
+    def __init__(self, city, country, region, capacity):
         self.city = city
         self.country = country
+        self.region = region
+        # Simulate "Real-Time" Inventory
         self.inventory = {
-            "Water (Liters)": water,
-            "Medical Kits": medical_kits,
-            "Food Parcels": food_parcels
+            "Water (Liters)": random.randint(1000, 50000),
+            "Medical Kits": random.randint(50, 5000),
+            "Food Parcels": random.randint(200, 10000),
+            "Blankets": random.randint(100, 2000),
+            "Tents": random.randint(10, 500)
         }
-
-class VolunteerSpecialist:
-    """Represents a skilled responder available for deployment."""
-    def __init__(self, name, specialty, contact):
-        self.name = name
-        self.specialty = specialty.capitalize() # e.g., Surgeon, Engineer, Pilot
-        self.contact = contact
+        self.capacity = capacity
 
 class UnityGridEngine:
-    """The central management system for global coordination."""
     def __init__(self):
-        self.centers = [
-            AidCenter("Istanbul", "Türkiye", 5000, 200, 1000),
-            AidCenter("Antakya", "Türkiye", 3000, 500, 800),
-            AidCenter("Tokyo", "Japan", 4500, 300, 1200),
-            AidCenter("Beirut", "Lebanon", 2000, 150, 600),
-            AidCenter("Mexico City", "Mexico", 3500, 250, 900)
-        ]
+        self.centers = []
         self.volunteers = []
+        self.load_mock_global_data()
 
-    def update_inventory(self, city_name, item, amount):
+    def load_mock_global_data(self):
+        # A list of major global hubs to simulate "All Cities" coverage
+        global_hubs = [
+            ("Istanbul", "Turkey", "Eurasia"), ("Gaziantep", "Turkey", "Middle East"),
+            ("New York", "USA", "North America"), ("London", "UK", "Europe"),
+            ("Berlin", "Germany", "Europe"), ("Tokyo", "Japan", "Asia"),
+            ("Seoul", "South Korea", "Asia"), ("Sydney", "Australia", "Oceania"),
+            ("Cairo", "Egypt", "Africa"), ("Nairobi", "Kenya", "Africa"),
+            ("Sao Paulo", "Brazil", "South America"), ("Mexico City", "Mexico", "North America"),
+            ("Mumbai", "India", "Asia"), ("Dubai", "UAE", "Middle East"),
+            ("Toronto", "Canada", "North America"), ("Paris", "France", "Europe")
+        ]
+        
+        for city, country, region in global_hubs:
+            self.centers.append(ReliefCenter(city, country, region, "High"))
+
+    def update_inventory(self, city_name, item, qty):
         for center in self.centers:
-            if center.city.lower() == city_name.lower():
+            if center.city == city_name:
                 if item in center.inventory:
-                    center.inventory[item] += amount
-                    return True
-        return False
+                    center.inventory[item] += qty
+                else:
+                    center.inventory[item] = qty
+
+    def save_state(self):
+        # In a real app, this saves to a database. 
+        # Here we just pass because we are regenerating data on load for the demo.
+        pass
