@@ -13,7 +13,66 @@ if 'page' not in st.session_state:
 if 'lang' not in st.session_state:
     st.session_state.lang = "English"
 
-# 3. TRANSLATION DICTIONARY
+# 3. CSS & STYLING (Theming)
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+    :root { --primary: #263E3A; --accent: #945031; --bg: #F9F9F9; }
+    .stApp { background-color: var(--bg); font-family: 'Montserrat', sans-serif; }
+    .block-container { padding-top: 1rem !important; }
+    [data-testid="stHeader"] { display: none; }
+    .stButton button { background-color: var(--accent) !important; color: white !important; font-weight: 600; border: none; }
+    .hero-quote { font-size: 48px; font-weight: 800; color: var(--primary); line-height: 1.1; margin-bottom: 20px; }
+    .hero-para { font-size: 17px; line-height: 1.6; color: #444; text-align: justify; margin-bottom: 25px; }
+    </style>
+""", unsafe_allow_html=True)
+
+# 4. NAVIGATION BAR
+col_logo, col_nav = st.columns([1, 1.8])
+with col_logo:
+    st.markdown(f"<div style='display:flex; align-items:center; gap:10px;'><svg width='35' height='35' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' stroke='#263E3A' stroke-width='8' fill='none'/><path d='M50 5 L50 95 M5 50 L95 50' stroke='#945031' stroke-width='8'/></svg><h2 style='color:#263E3A; margin:0;'>Unity <span style='color:#945031;'>Grid</span></h2></div>", unsafe_allow_html=True)
+
+with col_nav:
+    c1, c2, c3, c4 = st.columns([1, 1, 1, 1])
+    if c1.button("Awareness"): st.session_state.page = "Home"
+    if c2.button("Take Action"): st.session_state.page = "Take Action"
+    with c3:
+        menu = st.selectbox("Menu ☰", ["Global Ops", "Precautionary", "Emergency Contacts", "Volunteering"], label_visibility="collapsed")
+        if menu == "Global Ops": st.session_state.page = "Dashboard"
+        elif menu == "Precautionary": st.session_state.page = "Precautionary"
+        elif menu == "Emergency Contacts": st.session_state.page = "Contacts"
+        elif menu == "Volunteering": st.session_state.page = "Volunteer"
+    with c4:
+        langs = ["English", "Turkish", "Spanish", "French", "Russian", "Arabic", "Chinese", "Hindi"]
+        st.session_state.lang = st.selectbox("🌐 Language", langs, label_visibility="collapsed")
+
+st.markdown("---")
+
+# 5. PAGE CONTENT
+
+if st.session_state.page == "Home":
+    col_text, col_img = st.columns([1.2, 1])
+    with col_text:
+        st.markdown("<div class='hero-quote'>HUMANITY WITHOUT BORDERS</div>", unsafe_allow_html=True)
+        st.markdown("<div class='hero-para'>UnityGrid is an advanced logistical framework designed to bridge the gap between global resource surplus and local disaster needs. By centralizing humanitarian data, UnityGrid ensures that aid reaches the most vulnerable locations—from Istanbul to Tokyo—without delay.</div>", unsafe_allow_html=True)
+        
+        if st.button("ℹ️ ABOUT PROJECT"):
+            st.markdown("""
+            ### 🏮 The Vision
+            Disasters do not respect borders. **UnityGrid** was built on the principle of "Global Solidarity," providing a standardized platform for tracking life-saving supplies and specialized human capital. This project serves as a prototype for how Management Information Systems (MIS) can be leveraged to minimize human suffering during environmental crises.
+
+            ### 🚀 Impactful Capabilities
+            * **Cross-Border Logistics:** Pre-configured with international hubs, including high-priority zones in **Türkiye** (Antakya, Istanbul) and global cities (Tokyo, Beirut).
+            * **Specialist Deployment:** A rapid-search algorithm to filter volunteers by mission-critical skills like "Medical" or "Rescue."
+            * **Inventory Resilience:** Object-Oriented architecture allows for real-time scaling of aid centers as new crisis zones emerge.
+
+            ### 🛠️ Technical Profile
+            * **Architecture:** Object-Oriented Programming (OOP) using Python.
+            * **Naming Standards:** Strict adherence to **PascalCase** for classes (`AidCenter`, `UnityGridEngine`) to ensure enterprise-level readability.
+            * **Data Logic:** Implements dictionary-based inventory mapping for **O(1)** efficiency in resource updates.
+            """)
+    with col_img:
+        st.image("https://cdn-icons-png.flaticon.com/512/3209/3209955.png", width=450)
 translations = {
     "English": {"home": "Awareness", "act": "Take Action", "dash": "Global Ops", "quote": "HUMANITY WITHOUT BORDERS", "sub": ""},
     "Turkish": {"home": "Farkındalık", "act": "Harekete Geç", "dash": "Küresel Operasyonlar", "quote": "SINIRSIZ İNSANLIK", "sub": ""},
