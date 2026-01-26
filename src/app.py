@@ -88,24 +88,116 @@ if st.session_state.page == "Home":
         """, unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         
-        # Use key to avoid collisions with other buttons
-        if st.button("ℹ️ ABOUT PROJECT", key="about_btn"):
-            with st.expander("Project Overview & Technical Profile", expanded=True):
-                st.markdown("""
-                ### 🏮 The Vision
-                Disasters do not respect borders. **UnityGrid** was built on the principle of "Global Solidarity," providing a standardized platform for tracking life-saving supplies and specialized human capital. 
+       @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+    
+    :root {
+        --primary: #263E3A; 
+        --accent: #945031;
+        --text-gray: #444;
+    }
 
-                ### 🚀 Impactful Capabilities
-                * **Cross-Border Logistics:** Pre-configured with international hubs, including **Türkiye** (Antakya, Istanbul) and global cities (Tokyo, Beirut).
-                * **Specialist Deployment:** Rapid-search algorithm for volunteers.
-                * **Inventory Resilience:** Object-Oriented architecture allows real-time scaling.
+    .stApp { background-color: #F9F9F9; font-family: 'Montserrat', sans-serif; }
+    [data-testid="stHeader"] { display: none; }
+    
+    /* Hero Section Styling */
+    .hero-heading { 
+        font-size: 56px; 
+        font-weight: 800; 
+        color: var(--primary); 
+        line-height: 1.1; 
+        margin-bottom: 20px; 
+        letter-spacing: -1px;
+    }
+    
+    .hero-paragraph { 
+        font-size: 18px; 
+        line-height: 1.7; 
+        color: var(--text-gray); 
+        text-align: justify;
+        margin-bottom: 30px;
+        border-left: 4px solid var(--accent);
+        padding-left: 20px;
+    }
 
-                ### 🛠️ Technical Profile
-                * **Architecture:** OOP using Python.
-                * **Naming Standards:** Strict adherence to **PascalCase** (e.g., `UnityGridEngine`).
-                * **Data Logic:** Dictionary-based mapping for **O(1)** efficiency.
-                """)
+    /* Button Styling */
+    .stButton button {
+        background-color: var(--accent) !important;
+        color: white !important;
+        padding: 12px 30px !important;
+        font-weight: 700 !important;
+        border-radius: 8px !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
+# 4. NAVIGATION
+col_l, col_r = st.columns([1, 1.5])
+with col_l:
+    st.markdown("<h2 style='color:#263E3A; margin:0;'>Unity<span style='color:#945031;'>Grid</span></h2>", unsafe_allow_html=True)
+with col_r:
+    nav_cols = st.columns(4)
+    if nav_cols[0].button("Home", key="nav_h"): st.session_state.page = "Home"
+    if nav_cols[1].button("Dashboard", key="nav_d"): st.session_state.page = "Dashboard"
+    if nav_cols[2].button("Contacts", key="nav_c"): st.session_state.page = "Contacts"
+    if nav_cols[3].button("Help", key="nav_he"): st.session_state.page = "Volunteer"
+
+st.markdown("---")
+
+# 5. MAIN PAGE CONTENT
+if st.session_state.page == "Home":
+    # Hero Section
+    col_text, col_img = st.columns([1.2, 1])
+    
+    with col_text:
+        st.markdown("<div class='hero-heading'>HUMANITY WITHOUT BORDERS</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <div class='hero-paragraph'>
+            UnityGrid is an advanced logistical framework designed to bridge the gap between global resource surplus and local disaster needs. 
+            By centralizing humanitarian data, UnityGrid ensures that aid reaches the most vulnerable locations—from 
+            Istanbul to Tokyo—without delay.
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # About Project Expansion
+        if st.button("ℹ️ ABOUT PROJECT", key="about_main"):
+            st.markdown("---")
+            st.markdown("""
+            ### 🏮 The Vision
+            Disasters do not respect borders. **UnityGrid** was built on the principle of "Global Solidarity," providing a standardized platform for tracking life-saving supplies and specialized human capital. This project serves as a prototype for how Management Information Systems (MIS) can be leveraged to minimize human suffering during environmental crises.
+
+            ### 🚀 Impactful Capabilities
+            * **Cross-Border Logistics:** Pre-configured with international hubs, including high-priority zones in **Türkiye** (Antakya, Istanbul) and global cities (Tokyo, Beirut).
+            * **Specialist Deployment:** A rapid-search algorithm to filter volunteers by mission-critical skills like "Medical" or "Rescue."
+            * **Inventory Resilience:** Object-Oriented architecture allows for real-time scaling of aid centers as new crisis zones emerge.
+
+            ### 🛠️ Technical Profile
+            * **Architecture:** Object-Oriented Programming (OOP) using Python.
+            * **Naming Standards:** Strict adherence to **PascalCase** for classes (`AidCenter`, `UnityGridEngine`) to ensure enterprise-level readability.
+            * **Data Logic:** Implements dictionary-based inventory mapping for **O(1)** efficiency in resource updates.
+            """)
+            st.markdown("---")
+
+    with col_img:
+        # Illustration of Humanity and Unity
+        st.image("https://img.freepik.com/free-vector/global-volunteer-solidarity-concept-illustration_114360-17415.jpg", 
+                 caption="UnityGrid: Global Solidarity Network", use_container_width=True)
+
+elif st.session_state.page == "Dashboard":
+    # ---------------- DASHBOARD (Navy Blue Map) ----------------
+    st.markdown("## 🌍 Global Logistics Command")
+    zones = st.session_state.engine.get_disaster_zones()
+    fig = go.Figure(go.Scattergeo(
+        lat=[z['lat'] for z in zones], lon=[z['lon'] for z in zones],
+        mode='markers', marker=dict(size=14, color=[z['color'] for z in zones], opacity=0.8)
+    ))
+    fig.update_geos(
+        projection_type="natural earth", showland=True, landcolor="#1B263B",
+        showocean=True, oceancolor="#0D131E", showcountries=True, countrycolor="#444"
+    )
+    fig.update_layout(height=600, margin={"r":0,"t":0,"l":0,"b":0}, paper_bgcolor="rgba(0,0,0,0)")
+    st.plotly_chart(fig, use_container_width=True)
     with col_img:
         st.image("https://cdn-icons-png.flaticon.com/512/3209/3209955.png", width=450)
 
