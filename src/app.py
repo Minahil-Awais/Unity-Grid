@@ -1,224 +1,117 @@
 import streamlit as st
-import time
+import plotly.graph_objects as go
 from models import UnityGridEngine
 
-# 1. PAGE CONFIGURATION
+# 1. PAGE SETUP
 st.set_page_config(page_title="Unity Grid", page_icon="🌿", layout="wide")
 
-# 2. CUSTOM AESTHETIC CSS (The "Pro" Look)
+# 2. DESIGNER CSS (Using your specific colors)
 st.markdown("""
     <style>
-    /* IMPORT FONTS */
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
-
-    /* COLOR PALETTE VARIABLES */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+    
     :root {
-        --primary-green: #263E3A;
-        --accent-brown: #945031;
-        --bg-white: #F5F5F5;
-        --text-dark: #1a1a1a;
+        --primary: #263E3A; /* Your Green */
+        --accent: #945031;  /* Your Brown */
+        --bg: #F5F5F5;
     }
 
-    /* GLOBAL STYLES */
-    .stApp {
-        background-color: var(--bg-white);
-        font-family: 'Montserrat', sans-serif;
-    }
+    .stApp { background-color: var(--bg); font-family: 'Inter', sans-serif; }
     
-    /* HIDE DEFAULT ELEMENTS */
+    /* Navigation Bar */
+    .nav-container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; }
+    .logo-text { font-size: 26px; font-weight: 700; color: var(--primary); }
+    
+    /* Hero Section */
+    .quote-text { font-size: 50px; font-weight: 800; color: var(--primary); line-height: 1.1; margin-bottom: 20px; }
+    .para-text { font-size: 18px; color: #444; line-height: 1.6; margin-bottom: 30px; }
+    
+    /* Hide default Streamlit elements */
     [data-testid="stSidebar"] {display: none;}
-    #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
-
-    /* CUSTOM NAVBAR */
-    .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 40px;
-        background-color: transparent;
-    }
-    .logo-box {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-    .logo-text {
-        font-size: 28px;
-        font-weight: 700;
-        color: var(--primary-green);
-        margin: 0;
-    }
-    .logo-icon {
-        font-size: 32px;
-        color: var(--accent-brown);
-    }
-    
-    /* HERO SECTION */
-    .hero-container {
-        text-align: center;
-        padding: 80px 20px;
-    }
-    .hero-quote {
-        font-size: 56px;
-        font-weight: 800;
-        color: var(--primary-green);
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        line-height: 1.1;
-        margin-bottom: 20px;
-    }
-    .hero-sub {
-        font-size: 18px;
-        color: #555;
-        max-width: 600px;
-        margin: 0 auto 30px auto;
-        line-height: 1.6;
-    }
-
-    /* METRIC CARDS */
-    div[data-testid="stMetricValue"] {
-        color: var(--accent-brown);
-        font-size: 24px;
-    }
-    div[data-testid="stMetricLabel"] {
-        color: var(--primary-green);
-        font-weight: bold;
-    }
-    
-    /* BUTTON STYLING OVERRIDES */
-    .stButton button {
-        background-color: var(--primary-green);
-        color: white;
-        border-radius: 30px;
-        padding: 10px 25px;
-        border: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    .stButton button:hover {
-        background-color: var(--accent-brown);
-        color: white;
-        transform: scale(1.02);
-    }
-    
-    /* TABLE STYLING */
-    .stDataFrame {
-        border: 1px solid #ddd;
-        border-radius: 10px;
-    }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. INITIALIZE ENGINE
+# 3. INITIALIZE
 if 'engine' not in st.session_state:
     st.session_state.engine = UnityGridEngine()
-engine = st.session_state.engine
-
-# STATE MANAGEMENT FOR NAVIGATION
 if 'page' not in st.session_state:
     st.session_state.page = "Home"
 
-def navigate_to(page):
-    st.session_state.page = page
+engine = st.session_state.engine
 
-# 4. CUSTOM HEADER (Logo Left, Buttons Right)
-col_head1, col_head2 = st.columns([1, 1])
-
-with col_head1:
-    # Logo and Name (Using HTML/CSS to match your image exactly)
-    st.markdown("""
-        <div class='logo-box'>
-            <div class='logo-icon'>❖</div>
-            <div class='logo-text'>Unity <span style='color:#945031'>Grid</span></div>
-        </div>
-    """, unsafe_allow_html=True)
-
-with col_head2:
-    # Navigation Buttons aligned to the right
-    c1, c2, c3 = st.columns([1, 1, 1])
-    with c1:
-        if st.button("Awareness", use_container_width=True):
-            navigate_to("Home")
-    with c2:
-        if st.button("Take Action", use_container_width=True):
-            navigate_to("Volunteer")
-    with c3:
-        # The Menu is a dropdown in the UI, but we simulate it as a button to Dashboard here
-        if st.button("Dashboard ☰", use_container_width=True):
-            navigate_to("Dashboard")
+# 4. TOP NAVIGATION
+col_logo, col_btns = st.columns([1, 1])
+with col_logo:
+    st.markdown(f"<div class='logo-text'>🌍 Unity <span style='color:#945031'>Grid</span></div>", unsafe_allow_html=True)
+with col_btns:
+    c1, c2, c3 = st.columns(3)
+    if c1.button("Awareness"): st.session_state.page = "Home"
+    if c2.button("Take Action"): st.session_state.page = "Volunteer"
+    if c3.button("Menu ☰"): st.session_state.page = "Dashboard"
 
 st.markdown("---")
 
-# 5. MAIN PAGE CONTENT LOGIC
+# 5. PAGE LOGIC
 
 if st.session_state.page == "Home":
-    # HERO SECTION
-    st.markdown("<div class='hero-container'>", unsafe_allow_html=True)
+    col_img, col_txt = st.columns([1, 1], gap="large")
     
-    # You can replace this URL with the local path if you upload the image file to 'src'
-    st.image("https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=1200", use_container_width=True)
+    with col_img:
+        # High-quality Illustration Placeholder (Hands forming globe)
+        st.image("https://cdn-icons-png.flaticon.com/512/3843/3843034.png", width=450)
     
-    st.markdown("""
-        <h1 class='hero-quote'>HUMANITY<br>WITHOUT BORDERS</h1>
-        <p class='hero-sub'>
-            <b>About:</b> A global humanitarian logistics system designed to optimize disaster relief 
-            and volunteer deployment across international hubs, including Türkiye.
-        </p>
-    """, unsafe_allow_html=True)
-    
-    # "About Project" Functional Button
-    if st.button("About Project"):
-        with st.expander("Overview & Technologies", expanded=True):
-            st.info("""
-            **System Architecture:**
-            * **Frontend:** Streamlit (Python)
-            * **Backend:** Object-Oriented Python (UnityGrid Engine)
-            * **Data Structure:** JSON-based persistence with simulated Real-Time Global Nodes.
-            
-            **Key Features:**
-            * Live tracking of supply chains across 15+ countries.
-            * Volunteer filtering by Medical, Rescue, and Engineering expertise.
-            * Centralized command for rapid disaster response.
-            """)
-    
-    st.markdown("</div>", unsafe_allow_html=True)
+    with col_txt:
+        st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
+        st.markdown("<p style='color:#945031; font-weight:bold; letter-spacing:2px;'>GLOBAL RESPONSE NETWORK</p>", unsafe_allow_html=True)
+        st.markdown("<h1 class='quote-text'>HUMANITY<br>WITHOUT BORDERS</h1>", unsafe_allow_html=True)
+        st.markdown("""
+            <p class='para-text'>
+            A global humanitarian logistics system designed to optimize disaster relief 
+            and volunteer deployment across international hubs, including Türkiye. 
+            Unity Grid connects resources with needs in real-time.
+            </p>
+        """, unsafe_allow_html=True)
+        if st.button("ABOUT PROJECT"):
+            st.write("Unity Grid is built on Python, Streamlit, and Plotly to manage global crises efficiently.")
 
 elif st.session_state.page == "Dashboard":
-    st.title("📊 Global Operations Center")
-    st.markdown("Real-time statistics from disaster rehabilitation centers.")
+    st.markdown("<h2 style='color:#263E3A;'>🌍 Global Operations Center</h2>", unsafe_allow_html=True)
     
-    # REAL TIME STATS ROW
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Active Hubs", len(engine.centers), "+2 New")
-    m2.metric("Total Supply Tons", "14,250", "+5%")
-    m3.metric("Medical Personnel", "1,840", "+12")
-    m4.metric("System Status", "OPTIMAL", delta_color="normal")
-    
-    st.markdown("### 🌍 Global Inventory (Live Feed)")
-    
-    # Display the "All Cities" Data
-    # Convert object list to dictionary for the dataframe
-    data_list = []
-    for c in engine.centers:
-        row = {"City": c.city, "Country": c.country, "Region": c.region, **c.inventory}
-        data_list.append(row)
-        
-    st.dataframe(data_list, use_container_width=True)
+    # TOP METRICS
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Active Hubs", "42", "+2", delta_color="normal")
+    m2.metric("Total Supply Tons", "84,200", "+1,450", delta_color="normal")
+    m3.metric("Response Time", "4.2 hrs", "-0.5", delta_color="inverse")
 
-elif st.session_state.page == "Volunteer":
-    st.title("🤝 Take Action")
-    st.markdown("Join the grid. Humanity needs your expertise.")
+    # DRILL DOWN INTERFACE
+    st.markdown("### Interactive Grid Explorer")
+    d1, d2, d3 = st.columns(3)
     
-    c1, c2 = st.columns(2)
-    with c1:
-        name = st.text_input("Full Name")
-        skill = st.selectbox("Expertise", ["Medical - Trauma", "Search & Rescue", "Civil Engineering", "Translator"])
-    with c2:
-        contact = st.text_input("Email Address")
-        location = st.selectbox("Preferred Deployment Region", ["Middle East", "Europe", "Asia-Pacific", "Africa"])
-        
-    if st.button("Submit Application"):
-        st.success(f"Thank you, {name}. Your profile has been added to the {skill} roster.")
-        time.sleep(2)
-        st.balloons()
+    continent = d1.selectbox("1. Select Continent", list(engine.world_data.keys()))
+    country = d2.selectbox("2. Select Country", list(engine.world_data[continent].keys()))
+    city = d3.selectbox("3. Select City Hub", engine.world_data[continent][country])
+
+    # THE GLOBE MAP
+    fig = go.Figure(go.Scattergeo())
+    fig.update_geos(
+        projection_type="orthographic",
+        showcountries=True, countrycolor="#444",
+        showland=True, landcolor="#263E3A",
+        showocean=True, oceancolor="#F5F5F5",
+        lataxis_showgrid=False, lonaxis_showgrid=False
+    )
+    fig.update_layout(height=500, margin={"r":0,"t":0,"l":0,"b":0}, paper_bgcolor="rgba(0,0,0,0)")
+    
+    col_map, col_stats = st.columns([1.5, 1])
+    
+    with col_map:
+        st.plotly_chart(fig, use_container_width=True)
+    
+    with col_stats:
+        st.markdown(f"#### 📦 {city} Inventory")
+        inv = engine.get_inventory(city)
+        for item, val in inv.items():
+            st.write(f"**{item}:** {val:,}")
+        st.progress(random.randint(40, 95))
+        st.caption("Hub Capacity Usage")
