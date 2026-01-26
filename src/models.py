@@ -1,5 +1,27 @@
 import random
 
+class EmergencyRegistry:
+    """
+    A collection of global emergency contact numbers.
+    Numbers are stored as strings to maintain formatting.
+    """
+    contacts = {
+        "Afghanistan": {"Police": "119", "Ambulance": "102", "Fire": "119"},
+        "Australia": {"Police": "000", "Ambulance": "000", "Fire": "000"},
+        "Brazil": {"Police": "190", "Ambulance": "192", "Fire": "193"},
+        "Canada": {"Police": "911", "Ambulance": "911", "Fire": "911"},
+        "China": {"Police": "110", "Ambulance": "120", "Fire": "119"},
+        "France": {"Police": "17", "Ambulance": "15", "Fire": "18"},
+        "Germany": {"Police": "110", "Ambulance": "112", "Fire": "112"},
+        "India": {"Police": "112", "Ambulance": "112", "Fire": "112"},
+        "Japan": {"Police": "110", "Ambulance": "119", "Fire": "119"},
+        "Mexico": {"Police": "911", "Ambulance": "911", "Fire": "911"},
+        "Pakistan": {"Police": "15", "Ambulance": "115", "Fire": "16"},
+        "South Africa": {"Police": "10111", "Ambulance": "10177", "Fire": "10177"},
+        "UAE": {"Police": "999", "Ambulance": "998", "Fire": "997"},
+        "UK": {"Police": "999", "Ambulance": "999", "Fire": "999"},
+        "USA": {"Police": "911", "Ambulance": "911", "Fire": "911"}
+    }
 class UnityGridEngine:
     def __init__(self):
         # 1. THE COMPLETE GLOBAL DATABASE (195 Countries)
