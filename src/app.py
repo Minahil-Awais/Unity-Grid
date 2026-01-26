@@ -13,30 +13,45 @@ if 'page' not in st.session_state:
 if 'lang' not in st.session_state:
     st.session_state.lang = "English"
 
-# 3. TRANSLATIONS DATA
+# 3. TRANSLATION DICTIONARY
 translations = {
-    "English": {"home": "Awareness", "act": "Take Action", "dash": "Global Ops", "quote": "HUMANITY WITHOUT BORDERS"},
-    "Turkish": {"home": "Farkındalık", "act": "Harekete Geç", "dash": "Küresel Operasyonlar", "quote": "SINIRSIZ İNSANLIK"},
-    "Spanish": {"home": "Conciencia", "act": "Tomar Acción", "dash": "Ops Globales", "quote": "HUMANIDAD SIN FRONTERAS"},
-    "French": {"home": "Sensibilisation", "act": "Agir", "dash": "Ops Mondiales", "quote": "L'HUMANITÉ SANS FRONTIÈRES"},
-    "Russian": {"home": "Осведомленность", "act": "Действовать", "dash": "Глобальные операции", "quote": "ЧЕЛОВЕЧЕСТВО БЕЗ ГРАНИЦ"},
-    "Arabic": {"home": "وعي", "act": "اتخاذ إجراء", "dash": "العمليات العالمية", "quote": "إنسانية بلا حدود"},
-    "Chinese": {"home": "意识", "act": "采取行动", "dash": "全球行动", "quote": "无国界的人性"},
-    "Hindi": {"home": "जागरूकता", "act": "कार्रवाई करें", "dash": "वैश्विक अभियान", "quote": "सीमाओं के बिना मानवता"}
+    "English": {"home": "Awareness", "act": "Take Action", "dash": "Global Ops", "quote": "HUMANITY WITHOUT BORDERS", "sub": ""},
+    "Turkish": {"home": "Farkındalık", "act": "Harekete Geç", "dash": "Küresel Operasyonlar", "quote": "SINIRSIZ İNSANLIK", "sub": ""},
+    "Spanish": {"home": "Conciencia", "act": "Tomar Acción", "dash": "Ops Globales", "quote": "HUMANIDAD SIN FRONTERAS", "sub": ""},
+    "French": {"home": "Sensibilisation", "act": "Agir", "dash": "Ops Mondiales", "quote": "L'HUMANITÉ SANS FRONTIÈRES", "sub": ""},
+    "Russian": {"home": "Осведомленность", "act": "Действовать", "dash": "Глобальные операции", "quote": "ЧЕЛОВЕЧЕСТВО БЕЗ ГРАНИЦ", "sub": ""},
+    "Arabic": {"home": "وعي", "act": "اتخاذ إجراء", "dash": "العمليات العالمية", "quote": "إنسانية بلا حدود", "sub": ""},
+    "Chinese": {"home": "意识", "act": "采取行动", "dash": "全球行动", "quote": "无国界的人性", "sub": ""},
+    "Hindi": {"home": "जागरूकता", "act": "कार्रवाई करें", "dash": "वैश्विक अभियान", "quote": "सीमाओं के बिना मानवता", "sub": ""}
 }
 t = translations.get(st.session_state.lang, translations["English"])
 
-# 4. AESTHETIC CSS (Fixed unsafe_allow_html typo)
+# 4. AESTHETIC CSS
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap');
-    :root { --primary: #263E3A; --accent: #945031; --bg: #F9F9F9; }
+    
+    :root {
+        --primary: #263E3A;  /* Deep Green */
+        --accent: #945031;   /* Terracotta Brown */
+        --bg: #F9F9F9;
+    }
+
     .stApp { background-color: var(--bg); font-family: 'Montserrat', sans-serif; }
-    .block-container { padding-top: 1rem !important; }
+    .block-container { padding-top: 1rem !important; margin-top: 0px !important; }
     [data-testid="stHeader"] { display: none; }
-    .stButton button { background-color: var(--accent) !important; color: white !important; border-radius: 5px; border: none; font-weight: 600; }
+    
+    .nav-box { display: flex; justify-content: space-between; align-items: center; padding: 15px 0px; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; }
+    .logo-text { font-size: 32px; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+    .logo-grid { color: var(--accent); }
+    
+    .stButton button { background-color: var(--accent) !important; color: white !important; border-radius: 5px; border: none; padding: 8px 25px; font-weight: 600; transition: 0.3s; }
+    .stButton button:hover { opacity: 0.8; transform: translateY(-2px); }
+    
     .hero-quote { font-size: 52px; font-weight: 800; color: var(--primary); line-height: 1.1; margin-bottom: 15px; }
     .hero-sub { color: #555; font-size: 16px; max-width: 600px; line-height: 1.6; text-align: justify; }
+    
+    div[data-testid="stMetricValue"] { color: var(--primary); }
     </style>
 """, unsafe_allow_html=True)
 
@@ -45,21 +60,22 @@ col_logo, col_nav = st.columns([1, 1.5])
 
 with col_logo:
     st.markdown(f"""
-        <div style='display:flex; align-items:center; gap:10px; padding: 15px 0;'>
-            <svg width="40" height="40" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" stroke="#263E3A" stroke-width="8" fill="none" />
-                <path d="M50 5 L50 95 M5 50 L95 50" stroke="#945031" stroke-width="8" />
-                <circle cx="50" cy="50" r="15" fill="#263E3A" />
-            </svg>
-            <div style='font-size: 32px; font-weight: 800; color: #263E3A;'>Unity <span style='color:#945031;'>Grid</span></div>
+        <div class='nav-box' style='border:none;'>
+            <div class='logo-container' style='display:flex; align-items:center; gap:10px;'>
+                <svg width="40" height="40" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" stroke="#263E3A" stroke-width="8" fill="none" />
+                    <path d="M50 5 L50 95 M5 50 L95 50" stroke="#945031" stroke-width="8" />
+                    <circle cx="50" cy="50" r="15" fill="#263E3A" />
+                </svg>
+                <div class='logo-text'>Unity <span class='logo-grid'>Grid</span></div>
+            </div>
         </div>
     """, unsafe_allow_html=True)
 
 with col_nav:
     c1, c2, c3, c4 = st.columns([1, 1, 1, 1.2])
-    # Added unique keys to prevent the DuplicateElementId error
-    if c1.button(t['home'], key="nav_home"): st.session_state.page = "Home"
-    if c2.button(t['act'], key="nav_action"): st.session_state.page = "Take Action"
+    if c1.button(t['home']): st.session_state.page = "Home"
+    if c2.button(t['act']): st.session_state.page = "Take Action"
     with c3:
         menu_choice = st.selectbox("Menu ☰", ["Global Ops", "Precautionary", "Emergency Contacts", "Volunteering"], label_visibility="collapsed")
         if menu_choice == "Global Ops": st.session_state.page = "Dashboard"
@@ -68,7 +84,7 @@ with col_nav:
         elif menu_choice == "Volunteering": st.session_state.page = "Volunteer"
     with c4:
         flags = {"English": "🇬🇧", "Turkish": "🇹🇷", "Spanish": "🇪🇸", "French": "🇫🇷", "Russian": "🇷🇺", "Arabic": "🇸🇦", "Chinese": "🇨🇳", "Hindi": "🇮🇳"}
-        lang = st.selectbox("Lang", list(translations.keys()), format_func=lambda x: f"{flags[x]} {x}", label_visibility="collapsed")
+        lang = st.selectbox("", list(translations.keys()), format_func=lambda x: f"{flags[x]} {x}", label_visibility="collapsed")
         if lang != st.session_state.lang:
             st.session_state.lang = lang
             st.rerun()
@@ -76,9 +92,13 @@ with col_nav:
 st.markdown("---")
 
 # 6. PAGE CONTENT
+
 if st.session_state.page == "Home":
+    # ---------------- HOME PAGE ----------------
     col_text, col_img = st.columns([1, 1])
+    
     with col_text:
+        st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
         st.markdown(f"<div class='hero-quote'>{t['quote']}</div>", unsafe_allow_html=True)
         st.markdown("""
             <div class='hero-sub'>
@@ -88,144 +108,82 @@ if st.session_state.page == "Home":
         """, unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         
-       @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
-    
-    :root {
-        --primary: #263E3A; 
-        --accent: #945031;
-        --text-gray: #444;
-    }
+        if st.button("ℹ️ ABOUT PROJECT"):
+            with st.expander("Project Overview & Technical Profile", expanded=True):
+                st.markdown("""
+                ### 🏮 The Vision
+                Disasters do not respect borders. **UnityGrid** was built on the principle of "Global Solidarity," providing a standardized platform for tracking life-saving supplies and specialized human capital. This project serves as a prototype for how Management Information Systems (MIS) can be leveraged to minimize human suffering during environmental crises.
 
-    .stApp { background-color: #F9F9F9; font-family: 'Montserrat', sans-serif; }
-    [data-testid="stHeader"] { display: none; }
-    
-    /* Hero Section Styling */
-    .hero-heading { 
-        font-size: 56px; 
-        font-weight: 800; 
-        color: var(--primary); 
-        line-height: 1.1; 
-        margin-bottom: 20px; 
-        letter-spacing: -1px;
-    }
-    
-    .hero-paragraph { 
-        font-size: 18px; 
-        line-height: 1.7; 
-        color: var(--text-gray); 
-        text-align: justify;
-        margin-bottom: 30px;
-        border-left: 4px solid var(--accent);
-        padding-left: 20px;
-    }
+                ### 🚀 Impactful Capabilities
+                * **Cross-Border Logistics:** Pre-configured with international hubs, including high-priority zones in **Türkiye** (Antakya, Istanbul) and global cities (Tokyo, Beirut).
+                * **Specialist Deployment:** A rapid-search algorithm to filter volunteers by mission-critical skills like "Medical" or "Rescue."
+                * **Inventory Resilience:** Object-Oriented architecture allows for real-time scaling of aid centers as new crisis zones emerge.
 
-    /* Button Styling */
-    .stButton button {
-        background-color: var(--accent) !important;
-        color: white !important;
-        padding: 12px 30px !important;
-        font-weight: 700 !important;
-        border-radius: 8px !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    </style>
-""", unsafe_allow_html=True)
+                ### 🛠️ Technical Profile
+                * **Architecture:** Object-Oriented Programming (OOP) using Python.
+                * **Naming Standards:** Strict adherence to **PascalCase** for classes (`AidCenter`, `UnityGridEngine`) to ensure enterprise-level readability.
+                * **Data Logic:** Implements dictionary-based inventory mapping for **O(1)** efficiency in resource updates.
+                """)
 
-# 4. NAVIGATION
-col_l, col_r = st.columns([1, 1.5])
-with col_l:
-    st.markdown("<h2 style='color:#263E3A; margin:0;'>Unity<span style='color:#945031;'>Grid</span></h2>", unsafe_allow_html=True)
-with col_r:
-    nav_cols = st.columns(4)
-    if nav_cols[0].button("Home", key="nav_h"): st.session_state.page = "Home"
-    if nav_cols[1].button("Dashboard", key="nav_d"): st.session_state.page = "Dashboard"
-    if nav_cols[2].button("Contacts", key="nav_c"): st.session_state.page = "Contacts"
-    if nav_cols[3].button("Help", key="nav_he"): st.session_state.page = "Volunteer"
-
-st.markdown("---")
-
-# 5. MAIN PAGE CONTENT
-if st.session_state.page == "Home":
-    # Hero Section
-    col_text, col_img = st.columns([1.2, 1])
-    
-    with col_text:
-        st.markdown("<div class='hero-heading'>HUMANITY WITHOUT BORDERS</div>", unsafe_allow_html=True)
-        st.markdown("""
-            <div class='hero-paragraph'>
-            UnityGrid is an advanced logistical framework designed to bridge the gap between global resource surplus and local disaster needs. 
-            By centralizing humanitarian data, UnityGrid ensures that aid reaches the most vulnerable locations—from 
-            Istanbul to Tokyo—without delay.
-            </div>
-        """, unsafe_allow_html=True)
+    with col_img:
+        # Illustration of humanity/unity on the RIGHT side
         
-        # About Project Expansion
-        if st.button("ℹ️ ABOUT PROJECT", key="about_main"):
-            st.markdown("---")
-            st.markdown("""
-            ### 🏮 The Vision
-            Disasters do not respect borders. **UnityGrid** was built on the principle of "Global Solidarity," providing a standardized platform for tracking life-saving supplies and specialized human capital. This project serves as a prototype for how Management Information Systems (MIS) can be leveraged to minimize human suffering during environmental crises.
-
-            ### 🚀 Impactful Capabilities
-            * **Cross-Border Logistics:** Pre-configured with international hubs, including high-priority zones in **Türkiye** (Antakya, Istanbul) and global cities (Tokyo, Beirut).
-            * **Specialist Deployment:** A rapid-search algorithm to filter volunteers by mission-critical skills like "Medical" or "Rescue."
-            * **Inventory Resilience:** Object-Oriented architecture allows for real-time scaling of aid centers as new crisis zones emerge.
-
-            ### 🛠️ Technical Profile
-            * **Architecture:** Object-Oriented Programming (OOP) using Python.
-            * **Naming Standards:** Strict adherence to **PascalCase** for classes (`AidCenter`, `UnityGridEngine`) to ensure enterprise-level readability.
-            * **Data Logic:** Implements dictionary-based inventory mapping for **O(1)** efficiency in resource updates.
-            """)
-            st.markdown("---")
-
-    with col_img:
-        # Illustration of Humanity and Unity
-        st.image("https://img.freepik.com/free-vector/global-volunteer-solidarity-concept-illustration_114360-17415.jpg", 
-                 caption="UnityGrid: Global Solidarity Network", use_container_width=True)
-
-elif st.session_state.page == "Dashboard":
-    # ---------------- DASHBOARD (Navy Blue Map) ----------------
-    st.markdown("## 🌍 Global Logistics Command")
-    zones = st.session_state.engine.get_disaster_zones()
-    fig = go.Figure(go.Scattergeo(
-        lat=[z['lat'] for z in zones], lon=[z['lon'] for z in zones],
-        mode='markers', marker=dict(size=14, color=[z['color'] for z in zones], opacity=0.8)
-    ))
-    fig.update_geos(
-        projection_type="natural earth", showland=True, landcolor="#1B263B",
-        showocean=True, oceancolor="#0D131E", showcountries=True, countrycolor="#444"
-    )
-    fig.update_layout(height=600, margin={"r":0,"t":0,"l":0,"b":0}, paper_bgcolor="rgba(0,0,0,0)")
-    st.plotly_chart(fig, use_container_width=True)
-    with col_img:
         st.image("https://cdn-icons-png.flaticon.com/512/3209/3209955.png", width=450)
 
 elif st.session_state.page == "Dashboard":
+    # ---------------- GLOBAL OPS ----------------
     st.markdown(f"## 🌍 {t['dash']} Center")
-    # Plotly Map Logic
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Active Regions", "195", "Global Coverage")
+    m2.metric("Disaster Zones", "11", "High Alert", delta_color="inverse")
+    m3.metric("Relief Teams", "4,210", "+120 Today")
+    m4.metric("Donations", "$1.2M", "+5%")
+
+    st.markdown("### 📡 Live Disaster Threat Map")
     zones = st.session_state.engine.get_disaster_zones()
-    fig = go.Figure(go.Scattergeo(
-        lat=[z['lat'] for z in zones], lon=[z['lon'] for z in zones],
-        mode='markers', marker=dict(size=12, color=[z['color'] for z in zones], opacity=0.8)
+    
+    lat = [z['lat'] for z in zones]
+    lon = [z['lon'] for z in zones]
+    colors = [z['color'] for z in zones]
+    sizes = [z['radius'] * 1.5 for z in zones]
+
+    fig = go.Figure()
+    
+    # 1. Base Map (Navy/Functional Look)
+    fig.add_trace(go.Scattergeo(
+        locationmode='country names',
+        marker=dict(size=2, color='#888'), 
     ))
+    
+    # 2. Disaster Zones Overlay
+    fig.add_trace(go.Scattergeo(
+        lat=lat, lon=lon,
+        mode='markers',
+        marker=dict(size=sizes, color=colors, opacity=0.8, line=dict(width=1, color='white')),
+        name='Alert Zones'
+    ))
+    
+    # 3. Functional Navy-Blue Styling
     fig.update_geos(
-        projection_type="natural earth", showland=True, landcolor="#1B263B",
-        showocean=True, oceancolor="#0D131E", showcountries=True, countrycolor="#555"
+        projection_type="natural earth",
+        showland=True, landcolor="#1B263B",    # Navy-Blue Land
+        showocean=True, oceancolor="#0D131E",  # Dark Ocean
+        showcountries=True, countrycolor="#555",
+        showlakes=True, lakecolor="#0D131E"
     )
     fig.update_layout(height=500, margin={"r":0,"t":0,"l":0,"b":0}, paper_bgcolor="rgba(0,0,0,0)")
     st.plotly_chart(fig, use_container_width=True)
 
-    # Inventory View
+    st.markdown("### 📦 Global Inventory Database")
     c_cont, c_coun = st.columns(2)
-    sel_continent = c_cont.selectbox("Select Continent", list(st.session_state.engine.world_data.keys()))
-    sel_country = c_coun.selectbox("Select Country", st.session_state.engine.world_data[sel_continent])
-    inv = st.session_state.engine.get_inventory(sel_country)
+    selected_continent = c_cont.selectbox("Select Continent", list(st.session_state.engine.world_data.keys()))
+    selected_country = c_coun.selectbox("Select Country", st.session_state.engine.world_data[selected_continent])
+    inv = st.session_state.engine.get_inventory(selected_country)
+    
+    st.info(f"Logistics Status: **{selected_country}**")
     cols = st.columns(5)
     for i, (k, v) in enumerate(inv.items()):
         cols[i].metric(k, f"{v:,}")
-
-# ... (Add remaining pages like Contacts/Volunteer following this pattern)
 
 elif st.session_state.page == "Precautionary":
     # ---------------- PRECAUTIONARY ----------------
