@@ -220,7 +220,7 @@ if st.session_state.page == "Home":
         """, unsafe_allow_html=True)
         
         # ABOUT PROJECT Button (Expander)
-        with st.expander("ℹ️ ABOUT PROJECT", expanded=False):
+        with st.expander("ABOUT PROJECT", expanded=False):
             st.markdown("""
             ### UnityGrid: Global Crisis Response & Resource Optimizer
             **UnityGrid** is an advanced logistical framework designed to bridge the gap between global resource surplus and local disaster needs. By centralizing humanitarian data, UnityGrid ensures that aid reaches the most vulnerable locations—from **Istanbul** to **Tokyo**—without delay.
