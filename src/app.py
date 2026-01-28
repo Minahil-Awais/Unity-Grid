@@ -76,7 +76,7 @@ t = translations.get(st.session_state.lang, translations["English"])
 # ==========================================
 st.markdown("""
     <style>
-    /* 1. Force Global Text Visibility (Dark Green/Black) */
+    /* 1. Force Global Text Visibility (Black/White) */
     .stApp, .stMarkdown, p, span, label, .stMetric div, [data-testid="stExpander"] div {
         color: #1A2E2B !important;
         font-family: 'Montserrat', sans-serif !important;
