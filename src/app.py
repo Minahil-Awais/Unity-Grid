@@ -186,7 +186,7 @@ if st.session_state.page == "Home":
         </div>
         """, unsafe_allow_html=True)
         
-        if st.button("ℹ️ ABOUT PROJECT"):
+        if st.button(" ABOUT PROJECT"):
              with st.expander("UnityGrid: Global Crisis Response & Resource Optimizer", expanded=True):
                 st.markdown("""
                 ### 🏮 The Vision
