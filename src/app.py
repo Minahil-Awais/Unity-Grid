@@ -76,40 +76,29 @@ t = translations.get(st.session_state.lang, translations["English"])
 # ==========================================
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
     
-    :root { --primary: #263E3A; --accent: #945031; }
-    .stApp { background-color: white; font-family: 'Montserrat', sans-serif; }
+    /* Force background white and text dark for mobile clarity */
+    .stApp { background-color: white !important; color: #263E3A !important; }
     
-    /* Responsive Header & Typography */
+    h1, h2, h3, p, span, div, label { color: #263E3A !important; font-family: 'Montserrat', sans-serif !important; }
+
     .hero-quote { 
-        font-size: calc(28px + 1.5vw); 
-        font-weight: 800; color: var(--primary); 
-        line-height: 1.1; text-transform: uppercase; margin-bottom: 20px;
+        font-size: calc(24px + 2vw) !important; font-weight: 800 !important; 
+        color: #263E3A !important; line-height: 1.1; margin-bottom: 20px;
     }
-    .hero-text { 
-        font-size: calc(14px + 0.3vw); color: #555; 
-        line-height: 1.6; border-left: 5px solid var(--accent); 
-        padding-left: 15px; margin-bottom: 30px; 
-    }
+    
+    .logo-title { font-size: 28px !important; font-weight: 800 !important; color: #263E3A !important; }
+    .logo-sub { color: #945031 !important; }
 
-    /* Force columns to stack on mobile */
-    [data-testid="column"] {
-        width: 100% !important;
-        flex: 1 1 calc(100% - 1rem) !important;
-        min-width: 100% !important;
-    }
+    /* Fix mobile column squashing */
+    [data-testid="column"] { width: 100% !important; flex: 1 1 100% !important; min-width: 100% !important; }
 
-    @media (min-width: 768px) {
-        [data-testid="column"] {
-            min-width: 0 !important;
-        }
+    /* Button Styling */
+    .stButton button { 
+        background-color: #263E3A !important; color: white !important; 
+        width: 100%; border-radius: 6px; border: none; font-weight: bold;
     }
-
-    /* Button and Logo Styling */
-    .stButton button { width: 100%; background-color: var(--primary); color: white; border-radius: 4px; font-weight: bold; }
-    .logo-title { font-size: 28px; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
-    .logo-sub { color: var(--accent); }
     </style>
 """, unsafe_allow_html=True)
 # ==========================================
