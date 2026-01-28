@@ -78,7 +78,7 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
     
-    :root { --primary: #945031; --accent: #263E3A; }
+    :root { --primary: #263E3A; --accent: #263E3A; }
 
     /* Main App Contrast */
     .stApp { background-color: white; }
