@@ -85,12 +85,12 @@ st.markdown("""
     
     /* Standard Text - Only target body text, not buttons */
     p, span, label, .stMetric div { color: #945031 !important; font-family: 'Montserrat', sans-serif; }
-    h1, h2, h3 { color: #945031 !important; font-family: 'Montserrat', sans-serif; font-weight: 800; }
+    h1, h2, h3 { color: #263E3A !important; font-family: 'Montserrat', sans-serif; font-weight: 800; }
 
     /* NAVIGATION BUTTONS - Force White Text on Primary Background */
     div.stButton > button:first-child {
         background-color: var(--primary) !important;
-        color: #263E3A !important;
+        color: #945031 !important;
         border: none !important;
         font-weight: 700 !important;
         width: 100%;
