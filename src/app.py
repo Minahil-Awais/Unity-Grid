@@ -78,41 +78,40 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap');
     
-    :root {
-        --primary: #263E3A; 
-        --accent: #945031;
-    }
-
+    :root { --primary: #263E3A; --accent: #945031; }
     .stApp { background-color: white; font-family: 'Montserrat', sans-serif; }
     
-    .logo-title { font-size: 36px; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
-    .logo-sub { color: var(--accent); }
-
+    /* Responsive Header & Typography */
     .hero-quote { 
-        font-size: 48px; 
-        font-weight: 800; 
-        color: var(--primary); 
-        line-height: 1.1; 
-        text-transform: uppercase;
-        margin-bottom: 20px;
+        font-size: calc(28px + 1.5vw); 
+        font-weight: 800; color: var(--primary); 
+        line-height: 1.1; text-transform: uppercase; margin-bottom: 20px;
     }
-    .hero-text {
-        font-size: 18px; color: #555; line-height: 1.6;
-        border-left: 5px solid var(--accent); padding-left: 15px; margin-bottom: 30px;
+    .hero-text { 
+        font-size: calc(14px + 0.3vw); color: #555; 
+        line-height: 1.6; border-left: 5px solid var(--accent); 
+        padding-left: 15px; margin-bottom: 30px; 
     }
 
-    .stButton button {
-        background-color: var(--primary); color: white; border-radius: 4px; font-weight: bold; border: none; padding: 0.5rem 1rem;
+    /* Force columns to stack on mobile */
+    [data-testid="column"] {
+        width: 100% !important;
+        flex: 1 1 calc(100% - 1rem) !important;
+        min-width: 100% !important;
     }
-    .stButton button:hover {
-        background-color: var(--accent);
+
+    @media (min-width: 768px) {
+        [data-testid="column"] {
+            min-width: 0 !important;
+        }
     }
-    
-    /* Precaution Cards */
-    .prec-card { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 10px; }
+
+    /* Button and Logo Styling */
+    .stButton button { width: 100%; background-color: var(--primary); color: white; border-radius: 4px; font-weight: bold; }
+    .logo-title { font-size: 28px; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+    .logo-sub { color: var(--accent); }
     </style>
 """, unsafe_allow_html=True)
-
 # ==========================================
 # 3. HEADER & NAVIGATION LOGIC
 # ==========================================
