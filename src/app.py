@@ -78,36 +78,62 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
     
-    :root { --primary: #263E3A; --accent: #F5F5F0; }
+    :root { 
+        --primary: #263E3A; 
+        --accent: #945031; 
+    }
 
-    /* Main App Contrast */
-    .stApp { background-color: white; }
-    
-    /* Standard Text - Only target body text, not buttons */
-    p, span, label, .stMetric div { color: #263E3A !important; font-family: 'Montserrat', sans-serif; }
-    h1, h2, h3 { color: #263E3A !important; font-family: 'Montserrat', sans-serif; font-weight: 800; }
+    /* 1. GLOBAL TEXT COLOR FIX */
+    /* Forces all page text, labels, and markdown to your specific dark green */
+    .stApp, .stMarkdown, p, span, label, li, .stMetric div, [data-testid="stExpander"] div {
+        color: #263E3A !important;
+        font-family: 'Montserrat', sans-serif !important;
+    }
 
-    /* NAVIGATION BUTTONS - Force White Text on Primary Background */
-    div.stButton > button:first-child {
-        background-color: var(--primary) !important;
-        color: #945031 !important;
+    /* 2. HEADINGS COLOR FIX */
+    h1, h2, h3, h4, h5, h6 {
+        color: #263E3A !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 800 !important;
+    }
+
+    /* 3. BUTTON TEXT COLOR (WHITE) */
+    /* Forces AWARENESS, TAKE ACTION, and ABOUT PROJECT buttons to show white text */
+    div.stButton > button {
+        background-color: #263E3A !important;
+        color: #FFFFFF !important;
         border: none !important;
         font-weight: 700 !important;
+        text-transform: uppercase;
         width: 100%;
     }
     
-    /* Logo Styling */
-    .logo-title { font-size: 32px; font-weight: 800; color: var(--primary); }
-    .logo-sub { color: var(--accent); }
+    /* 4. LOGO STYLING */
+    .logo-title { font-size: 32px; font-weight: 800; color: #263E3A !important; }
+    .logo-sub { color: #945031 !important; }
 
-    /* Responsive Columns */
-    [data-testid="column"] { width: 100% !important; flex: 1 1 100% !important; min-width: 100% !important; }
+    /* 5. MOBILE RESPONSIVENESS */
+    /* Ensures columns stack on phone but stay side-by-side on computer */
+    [data-testid="column"] { 
+        width: 100% !important; 
+        flex: 1 1 100% !important; 
+        min-width: 100% !important; 
+    }
     @media (min-width: 768px) {
-        [data-testid="column"] { min-width: 0 !important; flex: 1 !important; width: auto !important; }
+        [data-testid="column"] { 
+            min-width: 0 !important; 
+            flex: 1 !important; 
+            width: auto !important; 
+        }
     }
 
-    /* Hero Styling */
-    .hero-quote { font-size: calc(24px + 1.5vw); font-weight: 800; color: var(--primary); line-height: 1.1; }
+    /* 6. HERO SECTION */
+    .hero-quote { 
+        font-size: calc(24px + 1.5vw) !important; 
+        font-weight: 800 !important; 
+        color: #263E3A !important; 
+        line-height: 1.1; 
+    }
     </style>
 """, unsafe_allow_html=True)
 # ==========================================
