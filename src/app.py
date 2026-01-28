@@ -78,27 +78,36 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
     
-    /* Force background white and text dark for mobile clarity */
-    .stApp { background-color: white !important; color: #263E3A !important; }
-    
-    h1, h2, h3, p, span, div, label { color: #263E3A !important; font-family: 'Montserrat', sans-serif !important; }
+    :root { --primary: #263E3A; --accent: #945031; }
 
-    .hero-quote { 
-        font-size: calc(24px + 2vw) !important; font-weight: 800 !important; 
-        color: #263E3A !important; line-height: 1.1; margin-bottom: 20px;
+    /* Main App Contrast */
+    .stApp { background-color: white; }
+    
+    /* Standard Text - Only target body text, not buttons */
+    p, span, label, .stMetric div { color: #263E3A !important; font-family: 'Montserrat', sans-serif; }
+    h1, h2, h3 { color: #263E3A !important; font-family: 'Montserrat', sans-serif; font-weight: 800; }
+
+    /* NAVIGATION BUTTONS - Force White Text on Primary Background */
+    div.stButton > button:first-child {
+        background-color: var(--primary) !important;
+        color: white !important;
+        border: none !important;
+        font-weight: 700 !important;
+        width: 100%;
     }
     
-    .logo-title { font-size: 28px !important; font-weight: 800 !important; color: #263E3A !important; }
-    .logo-sub { color: #945031 !important; }
+    /* Logo Styling */
+    .logo-title { font-size: 32px; font-weight: 800; color: var(--primary); }
+    .logo-sub { color: var(--accent); }
 
-    /* Fix mobile column squashing */
+    /* Responsive Columns */
     [data-testid="column"] { width: 100% !important; flex: 1 1 100% !important; min-width: 100% !important; }
-
-    /* Button Styling */
-    .stButton button { 
-        background-color: #263E3A !important; color: white !important; 
-        width: 100%; border-radius: 6px; border: none; font-weight: bold;
+    @media (min-width: 768px) {
+        [data-testid="column"] { min-width: 0 !important; flex: 1 !important; width: auto !important; }
     }
+
+    /* Hero Styling */
+    .hero-quote { font-size: calc(24px + 1.5vw); font-weight: 800; color: var(--primary); line-height: 1.1; }
     </style>
 """, unsafe_allow_html=True)
 # ==========================================
